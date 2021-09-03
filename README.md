@@ -29,7 +29,7 @@ MVPS:
 
 WIREFRAMES:
 
-[wireframe-simplofi.pdf](https://github.com/davidoh14/SimpLoFi_JS/files/7103803/wireframe-simplofi.pdf)
+![Homepage](https://user-images.githubusercontent.com/86807281/131962154-f521d09e-e265-4bf7-bfc7-752982975270.png)
 
 TECHNOLOGIES, LIBRARIES, APIs:
 
