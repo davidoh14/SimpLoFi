@@ -1,9 +1,9 @@
-BACKGROUND:
+# BACKGROUND:
 
 Welcome to SimpLoFi, where anybody can create a mini lo-fi song. Select the key you want your song to be in, a drum track, and harmonic chord progression (think of the left hand on a piano that sets you up for the melody). Now all that is left is to create a melody, with a concise range of recommended notes provided based on the key and chord progression!
 
 
-FUNCTIONALITY:
+### FUNCTIONALITY
     
 In SimpLoFi, users will be able to:
 - Select a key to determine the general direction of the song
@@ -17,7 +17,7 @@ In SimpLoFi, users will be able to:
 - Record and playback 
 
 
-MVPS:
+### MVPS
 
 - Key selector
 - Chord progression selector
@@ -27,7 +27,7 @@ MVPS:
 
 
 
-WIREFRAMES:
+### WIREFRAME
 
 ![Homepage](https://user-images.githubusercontent.com/86807281/131962154-f521d09e-e265-4bf7-bfc7-752982975270.png)
 
@@ -41,27 +41,27 @@ TECHNOLOGIES, LIBRARIES, APIs:
 
 
 
-IMPLEMENTATION TIMELINE:
+### IMPLEMENTATION TIMELINE
 
 - Friday Afternoon: 
-    Setup project and webpack. 
-    Finalize which technologies to use. 
-    Understand Tone.js and how to utilize midi files in the program. 
-    Research music theory to find recommended melody notes dependent on chord progression.
+    - Setup project and webpack. 
+    - Finalize which technologies to use. 
+    - Understand Tone.js and how to utilize midi files in the program. 
+    - Research music theory to find recommended melody notes dependent on chord progression.
     
 - Saturday: 
-    Continue research on music theory to find recommended melody notes dependent on chord progression.
-    Create all buttons to show and light up when clicked, and stay lit if toggled.
-    Set up event listeners for each button to play a given sound. 
+    - Continue research on music theory to find recommended melody notes dependent on chord progression.
+    - Create all buttons to show and light up when clicked, and stay lit if toggled.
+    - Set up event listeners for each button to play a given sound. 
 
 - Sunday: 
-    Set up tempo of harmonic chord progression dependency on drum pattern tempo. 
-    Set up the dependency of chord progression on key selector. (If this takes too long, do not set up a key selector.)
+    - Set up tempo of harmonic chord progression dependency on drum pattern tempo. 
+    - Set up the dependency of chord progression on key selector. (If this takes too long, do not set up a key selector.)
 - Monday: 
-    Create melody key logic to change dependent on harmonic chord progression.
-    Make sure that re-rendering of recommended keys works if user changes chord progression
+    - Create melody key logic to change dependent on harmonic chord progression.
+    - Make sure that re-rendering of recommended keys works if user changes chord progression
 - Tuesday: 
-    Find 8-bit pixel art to improve UI
-    Use a piano visualizer
+    - Find 8-bit pixel art to improve UI
+    - Use a piano visualizer
 - Wednesday: 
-    Continue to improve UI
+    - Continue to improve UI
