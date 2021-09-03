@@ -29,8 +29,7 @@ MVPS:
 
 WIREFRAMES:
 
-<img src="dist/assets/wireframe-simplofi.pdf">
-
+[wireframe-simplofi.pdf](https://github.com/davidoh14/SimpLoFi_JS/files/7103803/wireframe-simplofi.pdf)
 
 TECHNOLOGIES, LIBRARIES, APIs:
 
