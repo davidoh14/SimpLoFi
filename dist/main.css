@@ -1,0 +1,27 @@
+body {
+    background-color: rgb(202, 176, 204)
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.row-container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.key{
+    border: 1px solid black;
+    padding: 10px 15px;
+    background-color: rgb(247, 247, 247);
+}
+
+.active {
+    background-color: rgb(138, 224, 142)
+}
+
+
+
