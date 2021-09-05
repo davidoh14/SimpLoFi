@@ -17,10 +17,29 @@ h1 {
     border: 1px solid black;
     padding: 10px 15px;
     background-color: rgb(247, 247, 247);
+    border-radius: 3px;
 }
 
 .active {
     background-color: rgb(138, 224, 142)
+}
+
+.chord-container {
+    display:flex;
+    justify-content: center;
+}
+
+.chord-container ul {
+    display: flex;
+
+}
+
+.chord-container li {
+    border: 1px solid black;
+    padding: 10px 30px;
+    list-style: none;
+    border-radius: 3px;
+    background-color: rgb(235, 230, 162)
 }
 
 
