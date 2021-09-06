@@ -23,6 +23,7 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => {
     const key = e.key;
     const keyIndex = keyboard.indexOf(key);
+    console.log('WORK')
 
     if (keyIndex > -1) stopNote(keys[keyIndex])
 })
@@ -40,20 +41,9 @@ function playNote(key){
 
 function stopNote(key){
     const noteAudio = document.getElementById(key.dataset.note)
-    key.classList.remove('active')
-
-    noteAudio.volume = Math.min(1, noteAudio.volume)
-    const fadePoint = noteAudio.currentTime;
-
-    noteAudio.pause();
-
-    // const fadeAudio = setInterval(function () {
-    //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume != 0.00)) {
-    //         noteAudio.volume -= 0.10;
-    //     } else if (noteAudio.volume === 0.00) {
-    //         clearInterval(fadeAudio);
-    //     }
-    // }, 200);
+    // noteAudio.pause()
+    note.classList.remove('active')
+    console.log(noteAudio.currentTime)
 
 }
 
