@@ -3,8 +3,10 @@ const keyboard = ['1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-',
 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
 
-const keys = document.querySelectorAll('.key')
+// const Cmin11 = ['C']
 
+const keys = document.querySelectorAll('.key')
+console.log(keys)
 
 keys.forEach(key => {
     key.addEventListener('click', () => playNote(key))
@@ -57,3 +59,25 @@ function stopNote(key){
 
 }
 
+const chords = document.querySelectorAll('.chord')
+console.log(chords)
+chords.forEach(chord => {
+    chord.addEventListener('click', () => playChord(chord));
+})
+
+function playChord(chord){
+    console.log(chord)
+    const chordAudio = document.getElementById(chord.dataset.chord)
+    chordAudio.play()
+    chordAudio.currentTime = 0
+    chord.classList.add('active')
+}
+
+// loop pause, change to buttons
+// separate notes from octaves
+// loop through each key and set a src file that takes in the respective note and octave
+// be able to decrement octave 
+// instrument variable 
+// create array for each key, and logic to only permit notes in that key
+// toggle for staccato vs legato
+// relook into setInterval
