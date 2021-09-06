@@ -1,0 +1,65 @@
+body {
+    background-image: url('/dist/assets/pxelartbackground.gif');
+    background-size: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'manaspace';
+    src: url('/dist/assets/joystix_monospace.ttf');
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    /* font-size:100%; */
+    font:inherit;
+    font-family: manaspace;
+    vertical-align:baseline
+} 
+
+h1 {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    margin-top: 50px;
+}
+.row-container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.key{
+    border: 1px solid black;
+    padding: 10px 15px;
+    background-color: rgb(247, 247, 247);
+    border-radius: 3px;
+}
+
+.active {
+    background-color: rgb(138, 224, 142)
+}
+
+.chord-container {
+    display:flex;
+    justify-content: center;
+}
+
+.chord-container ul {
+    display: flex;
+
+}
+
+.chord-container li {
+    border: 1px solid black;
+    padding: 10px 30px;
+    list-style: none;
+    border-radius: 3px;
+    background-color: rgb(235, 230, 162)
+}
+
+
