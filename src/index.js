@@ -1,4 +1,5 @@
-const keyboard = ['1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-', 
+const keyboard = [
+'1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-', 
 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
@@ -7,7 +8,6 @@ const keyboard = ['1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-',
 
 
 const keys = document.querySelectorAll('.key')
-
 
 keys.forEach(key => {
     key.addEventListener('click', () => playNote(key))
@@ -25,44 +25,59 @@ document.addEventListener('keyup', e => {
     const key = e.key;
     const keyIndex = keyboard.indexOf(key);
 
-    if (keyIndex > -1) stopNote(keys[keyIndex])
+    const divKey = keys[keyIndex]
+    const note = divKey.dataset.note
+    const octave = divKey.dataset.octave
+
+    if (keyIndex > -1) {
+        keys[keyIndex].classList.remove('active');
+        const playingNote = Object.keys(playing).filter(key => key === `${note}${octave}`)
+        const noteAudio = playing[playingNote]
+        stopNote(noteAudio);
+    }
 })
+
+const playing = {}; // playing[playingNote] = noteAudio
+console.log(playing)
 
 function playNote(key){
     if (!key.dataset.note) return;
-    const noteURL = "samples/piano/" + key.dataset.note + key.dataset.octave + ".mp3";
+    const noteURL = "samples/piano/" + key.dataset.note + key.dataset.octave + ".wav";
     const noteAudio = new Audio(noteURL)
-    
-    console.log("samples/piano/" + key.dataset.note + key.dataset.octave + ".mp3")
 
     noteAudio.play()
+    noteAudio.classList.add('playing')
+    playing[`${key.dataset.note}${key.dataset.octave}`] = noteAudio
+    console.log(playing)
+
     key.classList.add('active')
-    noteAudio.addEventListener('ended', () => {
-        key.classList.remove('active')
-    })
+    noteAudio.addEventListener('ended', () => key.classList.remove('active'))
+    key.addEventListener('keyup', () => console.log('blah'))
 }
 
-function stopNote(key){
-    const noteAudio = document.getElementById(key.dataset.note)
-    key.classList.remove('active')
-
+function stopNote(noteAudio){
     noteAudio.volume = Math.min(1, noteAudio.volume)
     const fadePoint = noteAudio.currentTime;
 
     noteAudio.pause();
 
+    const temp = Object.values(playing).filter(val => val === noteAudio)
+    console.log(temp)
+    // playing.remove()
     // const fadeAudio = setInterval(function () {
     //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume != 0.00)) {
+    //         // console.log('2')
     //         noteAudio.volume -= 0.10;
     //     } else if (noteAudio.volume === 0.00) {
+    //         // console.log('3')
     //         clearInterval(fadeAudio);
+    //     } else {
+    //         // console.log('4')
     //     }
     // }, 200);
-
 }
 
 const chords = document.querySelectorAll('.chord')
-console.log(chords)
 chords.forEach(chord => {
     chord.addEventListener('click', () => playToggle(chord));
 })
@@ -76,15 +91,19 @@ function playToggle(chord){
 }
 
 function playChord(chord){
-    const chordAudio = document.getElementById(chord.dataset.chord)
-    chordAudio.play()
+    const chordURL = "samples/LANDR/" + chord.dataset.chord + ".wav"
+    console.log(chordURL)
+    const chordAudio = new Audio(chordURL);
+    console.log(chordAudio)
+
+    chordAudio.play();
     chordAudio.loop = true;
-    chordAudio.currentTime = 0
     chord.classList.add('active')
 }
 
 function pauseChord(chord){
-    const chordAudio = document.getElementById(chord.dataset.chord)
+    const chordURL = "samples/LANDR/" + chord.dataset.chord + ".wav"
+    const chordAudio = new Audio(chordURL);
     chordAudio.pause();
     chord.classList.remove('active')
 }
