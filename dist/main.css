@@ -63,11 +63,11 @@ h1 {
 }
 
 .recommended {
-    border: 3px solid rgb(31, 165, 38);
-    background-color: rgb(252, 248, 192);
+    border: 1px solid rgb(5, 116, 10);
+    background-color: rgb(235, 230, 162);
 }
 
-div > .active {
+.active {
     background-color: rgb(138, 224, 142)
 }
 

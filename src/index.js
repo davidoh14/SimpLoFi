@@ -5,8 +5,8 @@ const keyboard = [
 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
 
 const scales = {
-    'Gm9':['G', 'Bb', 'D', 'F', 'A'],
-    'Cm11':['C', 'Eb', 'G', 'Bb', 'D', 'Gb']
+    'Gm9':['G', 'As', 'D', 'F', 'A'],
+    'Cm11':['C', 'Ds', 'G', 'As', 'D', 'Fs']
 }
 
 const keys = document.querySelectorAll('.key')
@@ -65,18 +65,6 @@ function stopNote(noteAudio){
 
     noteAudio.pause();
 
-    // const temp = Object.values(playing).filter(val => val === noteAudio)
-    // console.log(temp)
-
-    // const fadeAudio = setInterval(function () {
-    //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume > 0.00)) {
-    //         console.log('2')
-    //         noteAudio.volume -= 0.05;
-    //     } else if (noteAudio.volume <= 0.00) {
-    //         console.log('3')
-    //         clearInterval(fadeAudio);
-    //     }
-    // }, 50);
 }
 
 const chords = document.querySelectorAll('.chord')
@@ -84,43 +72,67 @@ chords.forEach(chord => {
     chord.addEventListener('click', () => playToggle(chord));
 })
 
-const playingChords = {};
+const playingChord = {}; // 'chord.dataset.file' : [chord, chordAudio]
+// let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
+// let playingChordAudio = playingChordKVP[1][1]; 
 
 function playToggle(chord){
-    if (playingChords.hasOwnProperty(chord.dataset.chord)) {
-        const chordAudio = playingChords[chord.dataset.chord];
-        chord.classList.remove('active');
-        chordAudio.pause();
-        delete playingChords[chord.dataset.chord];
+    const existingChord = Object.keys(playingChord) // returns chord.dataset.file as Mystery
+    const newChord = chord.dataset.file // returns chord.dataset.file as Mystery
+    
+    if (existingChord[0] === newChord) {
+        pauseChord(chord)
+    } else if (existingChord.length && (existingChord[0] !== newChord)) {
+        console.log('2')
+        pauseChord(chord);
+        playChord(chord);
     } else {
+        console.log('3')
         playChord(chord);
     }
 }
 
 function playChord(chord){
-    const chordURL = "samples/LANDR/" + chord.dataset.chord + ".wav"
+    const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
     const chordAudio = new Audio(chordURL);
     recommended(chord);
     
     chordAudio.play();
     chordAudio.loop = true;
     chord.classList.add('active');
-    playingChords[chord.dataset.chord] = chordAudio;
+    playingChord[chord.dataset.file] = [chord, chordAudio];
+    console.log(playingChord)
 }
 
 function recommended(chord) {
     const mkey = chord.dataset.mkey;
-
+    
     keys.forEach(key => {
-        // console.log(scales[mkey])
-        console.log(key)
         if (scales[mkey].includes(key.dataset.note)) {
             key.classList.add('recommended');
         };
     });
 }
 
-// function pauseChord(chordAudio){
+function pauseChord(chord){
+    let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
+    let playingChordAudio = playingChordKVP[1][1]; 
     
-// }
+    playingChordAudio.pause();
+    chord.classList.remove('active');
+    delete playingChord[chord.dataset.file];
+}
 
+
+// const temp = Object.values(playing).filter(val => val === noteAudio)
+// console.log(temp)
+
+// const fadeAudio = setInterval(function () {
+    //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume > 0.00)) {
+        //         console.log('2')
+        //         noteAudio.volume -= 0.05;
+        //     } else if (noteAudio.volume <= 0.00) {
+            //         console.log('3')
+            //         clearInterval(fadeAudio);
+            //     }
+            // }, 50);
