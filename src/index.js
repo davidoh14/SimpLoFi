@@ -5,13 +5,12 @@ const keyboard = ['1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-',
 
 // const Cmin11 = ['C']
 
+
 const keys = document.querySelectorAll('.key')
-console.log(keys)
+
 
 keys.forEach(key => {
     key.addEventListener('click', () => playNote(key))
-    key.addEventListener('onkeydown', () => playNote(key))
-    key.addEventListener('onkeyup', ()=> stopNote(key))
 })
 
 document.addEventListener('keydown', e => {
@@ -30,9 +29,12 @@ document.addEventListener('keyup', e => {
 })
 
 function playNote(key){
-    const noteAudio = document.getElementById(key.dataset.note)
-    console.log(noteAudio);
-    noteAudio.currentTime = 0
+    if (!key.dataset.note) return;
+    const noteURL = "samples/piano/" + key.dataset.note + key.dataset.octave + ".mp3";
+    const noteAudio = new Audio(noteURL)
+    
+    console.log("samples/piano/" + key.dataset.note + key.dataset.octave + ".mp3")
+
     noteAudio.play()
     key.classList.add('active')
     noteAudio.addEventListener('ended', () => {
@@ -62,15 +64,29 @@ function stopNote(key){
 const chords = document.querySelectorAll('.chord')
 console.log(chords)
 chords.forEach(chord => {
-    chord.addEventListener('click', () => playChord(chord));
+    chord.addEventListener('click', () => playToggle(chord));
 })
 
+function playToggle(chord){
+    if (chord.classList.contains('active')) {
+        pauseChord(chord);
+    } else {
+        playChord(chord);
+    }
+}
+
 function playChord(chord){
-    console.log(chord)
     const chordAudio = document.getElementById(chord.dataset.chord)
     chordAudio.play()
+    chordAudio.loop = true;
     chordAudio.currentTime = 0
     chord.classList.add('active')
+}
+
+function pauseChord(chord){
+    const chordAudio = document.getElementById(chord.dataset.chord)
+    chordAudio.pause();
+    chord.classList.remove('active')
 }
 
 // loop pause, change to buttons
@@ -81,3 +97,4 @@ function playChord(chord){
 // create array for each key, and logic to only permit notes in that key
 // toggle for staccato vs legato
 // relook into setInterval
+
