@@ -4,8 +4,10 @@ const keyboard = [
 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
 
-// const Cmin11 = ['C']
-
+const scales = {
+    'Gm9':['G', 'Bb', 'D', 'F', 'A'],
+    'Cm11':['C', 'Eb', 'G', 'Bb', 'D', 'Gb']
+}
 
 const keys = document.querySelectorAll('.key')
 
@@ -42,12 +44,9 @@ const playing = {}; // playing[playingNote] = noteAudio
 
 function playNote(key){
     const noteOctave = `${key.dataset.note}${key.dataset.octave}`
-    console.log(noteOctave);
     if (!key.dataset.note) return;
-    // console.log(key)
-    // console.log(Object.keys(playing))
     if (Object.keys(playing).includes(noteOctave)) return;
-    console.log(Object.keys(playing).includes(key));
+
     const noteURL = "samples/piano/" + key.dataset.note + key.dataset.octave + ".wav";
     const noteAudio = new Audio(noteURL)
     noteAudio.currentTime = 0
@@ -55,15 +54,12 @@ function playNote(key){
     noteAudio.play()
     noteAudio.classList.add('playing')
     playing[`${key.dataset.note}${key.dataset.octave}`] = noteAudio
-    // console.log(playing)
 
     key.classList.add('active')
-    noteAudio.addEventListener('ended', () => key.classList.remove('active'))
-    key.addEventListener('keyup', () => console.log('blah'))
+    noteAudio.addEventListener('ended', () => key.classList.remove('active')) // for legato mode
 }
 
 function stopNote(noteAudio){
-    console.log(noteAudio)
     noteAudio.volume = 1
     const fadePoint = noteAudio.currentTime;
 
@@ -94,7 +90,7 @@ function playToggle(chord){
     if (playingChords.hasOwnProperty(chord.dataset.chord)) {
         const chordAudio = playingChords[chord.dataset.chord];
         chord.classList.remove('active');
-        pauseChord(chordAudio);
+        chordAudio.pause();
         delete playingChords[chord.dataset.chord];
     } else {
         playChord(chord);
@@ -103,17 +99,28 @@ function playToggle(chord){
 
 function playChord(chord){
     const chordURL = "samples/LANDR/" + chord.dataset.chord + ".wav"
-    console.log(chordURL)
     const chordAudio = new Audio(chordURL);
-    console.log(chordAudio)
-
+    recommended(chord);
+    
     chordAudio.play();
     chordAudio.loop = true;
     chord.classList.add('active');
     playingChords[chord.dataset.chord] = chordAudio;
 }
 
-function pauseChord(chordAudio){
-    chordAudio.pause();
+function recommended(chord) {
+    const mkey = chord.dataset.mkey;
+
+    keys.forEach(key => {
+        // console.log(scales[mkey])
+        console.log(key)
+        if (scales[mkey].includes(key.dataset.note)) {
+            key.classList.add('recommended');
+        };
+    });
 }
+
+// function pauseChord(chordAudio){
+    
+// }
 
