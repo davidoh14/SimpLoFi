@@ -26,14 +26,14 @@ document.addEventListener('keyup', e => {
     const keyIndex = keyboard.indexOf(key);
 
     const divKey = keys[keyIndex]
-    const note = divKey.dataset.note
-    const octave = divKey.dataset.octave
+    const noteOctave = `${divKey.dataset.note}${divKey.dataset.octave}`
 
     if (keyIndex > -1) {
         keys[keyIndex].classList.remove('active');
-        const playingNote = Object.keys(playing).filter(key => key === `${note}${octave}`)
+        const playingNote = Object.keys(playing).filter(key => key === noteOctave)
         const noteAudio = playing[playingNote]
         stopNote(noteAudio);
+        delete playing[noteOctave]
     }
 })
 
@@ -61,8 +61,8 @@ function stopNote(noteAudio){
 
     noteAudio.pause();
 
-    const temp = Object.values(playing).filter(val => val === noteAudio)
-    console.log(temp)
+    // const temp = Object.values(playing).filter(val => val === noteAudio)
+    // console.log(temp)
     // playing.remove()
     // const fadeAudio = setInterval(function () {
     //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume != 0.00)) {
@@ -82,9 +82,14 @@ chords.forEach(chord => {
     chord.addEventListener('click', () => playToggle(chord));
 })
 
+const playingChords = {};
+
 function playToggle(chord){
-    if (chord.classList.contains('active')) {
-        pauseChord(chord);
+    if (playingChords.hasOwnProperty(chord.dataset.chord)) {
+        const chordAudio = playingChords[chord.dataset.chord];
+        chord.classList.remove('active');
+        pauseChord(chordAudio);
+        delete playingChords[chord.dataset.chord];
     } else {
         playChord(chord);
     }
@@ -98,22 +103,11 @@ function playChord(chord){
 
     chordAudio.play();
     chordAudio.loop = true;
-    chord.classList.add('active')
+    chord.classList.add('active');
+    playingChords[chord.dataset.chord] = chordAudio;
 }
 
-function pauseChord(chord){
-    const chordURL = "samples/LANDR/" + chord.dataset.chord + ".wav"
-    const chordAudio = new Audio(chordURL);
+function pauseChord(chordAudio){
     chordAudio.pause();
-    chord.classList.remove('active')
 }
-
-// loop pause, change to buttons
-// separate notes from octaves
-// loop through each key and set a src file that takes in the respective note and octave
-// be able to decrement octave 
-// instrument variable 
-// create array for each key, and logic to only permit notes in that key
-// toggle for staccato vs legato
-// relook into setInterval
 
