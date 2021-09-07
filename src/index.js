@@ -27,6 +27,7 @@ document.addEventListener('keyup', e => {
 
     const divKey = keys[keyIndex]
     const noteOctave = `${divKey.dataset.note}${divKey.dataset.octave}`
+    
 
     if (keyIndex > -1) {
         keys[keyIndex].classList.remove('active');
@@ -38,17 +39,23 @@ document.addEventListener('keyup', e => {
 })
 
 const playing = {}; // playing[playingNote] = noteAudio
-console.log(playing)
 
 function playNote(key){
+    const noteOctave = `${key.dataset.note}${key.dataset.octave}`
+    console.log(noteOctave);
     if (!key.dataset.note) return;
+    // console.log(key)
+    // console.log(Object.keys(playing))
+    if (Object.keys(playing).includes(noteOctave)) return;
+    console.log(Object.keys(playing).includes(key));
     const noteURL = "samples/piano/" + key.dataset.note + key.dataset.octave + ".wav";
     const noteAudio = new Audio(noteURL)
+    noteAudio.currentTime = 0
 
     noteAudio.play()
     noteAudio.classList.add('playing')
     playing[`${key.dataset.note}${key.dataset.octave}`] = noteAudio
-    console.log(playing)
+    // console.log(playing)
 
     key.classList.add('active')
     noteAudio.addEventListener('ended', () => key.classList.remove('active'))
@@ -56,25 +63,24 @@ function playNote(key){
 }
 
 function stopNote(noteAudio){
-    noteAudio.volume = Math.min(1, noteAudio.volume)
+    console.log(noteAudio)
+    noteAudio.volume = 1
     const fadePoint = noteAudio.currentTime;
 
     noteAudio.pause();
 
     // const temp = Object.values(playing).filter(val => val === noteAudio)
     // console.log(temp)
-    // playing.remove()
+
     // const fadeAudio = setInterval(function () {
-    //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume != 0.00)) {
-    //         // console.log('2')
-    //         noteAudio.volume -= 0.10;
-    //     } else if (noteAudio.volume === 0.00) {
-    //         // console.log('3')
+    //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume > 0.00)) {
+    //         console.log('2')
+    //         noteAudio.volume -= 0.05;
+    //     } else if (noteAudio.volume <= 0.00) {
+    //         console.log('3')
     //         clearInterval(fadeAudio);
-    //     } else {
-    //         // console.log('4')
     //     }
-    // }, 200);
+    // }, 50);
 }
 
 const chords = document.querySelectorAll('.chord')
