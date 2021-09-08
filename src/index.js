@@ -5,8 +5,10 @@ const keyboard = [
 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
 
 const scales = {
-    'Gm9':['C', 'G', 'As', 'D', 'F', 'A', 'Ds'],
-    'Cm11':['C', 'Ds', 'G', 'As', 'D', 'F', 'A']
+    'Am11':['C','G', 'E', 'D', 'F', 'A', 'B', 'Fs'],
+    'Cm11':['C', 'Ds', 'G', 'As', 'D', 'F', 'A'],
+    'Fm11':['F', 'Gs', 'C', 'Ds', 'G', 'As', 'D'],
+    'GM7':['G', 'B', 'Fs', 'D', 'B', 'A', 'C', 'Ds', 'E']
 }
 
 const keys = document.querySelectorAll('.key')
