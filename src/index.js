@@ -18,8 +18,9 @@ const inst = {
 }
 
 let current_inst = 'piano'
-let high_octave = inst[current_inst].slice(-1)[0]
-let low_octave = high_octave - 3
+let high_oct = inst[current_inst].slice(-1)[0]
+let mid_oct = high_oct - 1
+let low_oct = high_oct - 2
 
 const keys = document.querySelectorAll('.key')
 const instruments = document.querySelectorAll('.inst')
@@ -32,6 +33,8 @@ keys.forEach(key => {
 instruments.forEach(inst => {
     inst.addEventListener('click', () => changeInst(inst))
 })
+
+
 
 function changeInst(inst) {
     current_inst = inst.innerText.toLowerCase();
