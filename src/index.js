@@ -19,16 +19,20 @@ const inst = {
 
 let current_inst = 'piano'
 let high_oct = inst[current_inst].slice(-1)[0]
-let mid_oct = high_oct - 1
-let low_oct = high_oct - 2
 
 let keys = document.querySelectorAll('.key')
 let instruments = document.querySelectorAll('.inst')
 let octs = document.querySelectorAll('.oct') 
 
-console.log(octs)
+const setKeys = function() {keys.forEach(key => {
+    let mid_oct = high_oct - 1
+    let low_oct = high_oct - 2
 
-const setKeys = keys.forEach(key => {
+    // if (low_oct < 0) {
+    //     low_oct === null
+    // }
+    
+    
     key.addEventListener('click', () => playNote(key))
     if (key.dataset.tier === "high") {
         key.setAttribute("data-octave", `${high_oct}`);
@@ -37,8 +41,29 @@ const setKeys = keys.forEach(key => {
     } else {
         key.setAttribute("data-octave", `${low_oct}`);
     }
-})
+})}
 
+setKeys();
+
+octs.forEach(oct => {
+    oct.addEventListener('click', (e) => {
+        const octRange = inst[current_inst]
+        console.log(high_oct);
+        console.log(octRange[2]);
+        console.log(octRange.slice(-1)[0]);
+        if (high_oct > octRange[2] && high_oct <= octRange.slice(-1)[0]) {
+            if (e.target.innerText === 'Down') {
+                high_oct -= 1;
+                setKeys();
+            } else {
+                high_oct += 1;
+                setKeys();
+            }
+        // } else {
+        //     alert('Octaves out of range');
+        }
+    }
+)})
 
 
 instruments.forEach(inst => {
@@ -46,7 +71,8 @@ instruments.forEach(inst => {
 })
 
 function changeInst(inst) {
-    current_inst = inst.innerText.toLowerCase();
+    const current_inst = inst.innerText.toLowerCase();
+    high_oct = inst[current_inst].slice(-1)[0];
 }
 
 document.addEventListener('keydown', e => {
