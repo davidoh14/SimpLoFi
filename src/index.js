@@ -22,19 +22,28 @@ let high_oct = inst[current_inst].slice(-1)[0]
 let mid_oct = high_oct - 1
 let low_oct = high_oct - 2
 
-const keys = document.querySelectorAll('.key')
-const instruments = document.querySelectorAll('.inst')
-console.log(instruments)
+let keys = document.querySelectorAll('.key')
+let instruments = document.querySelectorAll('.inst')
+let octs = document.querySelectorAll('.oct') 
 
-keys.forEach(key => {
+console.log(octs)
+
+const setKeys = keys.forEach(key => {
     key.addEventListener('click', () => playNote(key))
+    if (key.dataset.tier === "high") {
+        key.setAttribute("data-octave", `${high_oct}`);
+    } else if (key.dataset.tier === "mid") {
+        key.setAttribute("data-octave", `${mid_oct}`);
+    } else {
+        key.setAttribute("data-octave", `${low_oct}`);
+    }
 })
+
+
 
 instruments.forEach(inst => {
     inst.addEventListener('click', () => changeInst(inst))
 })
-
-
 
 function changeInst(inst) {
     current_inst = inst.innerText.toLowerCase();
@@ -67,6 +76,7 @@ document.addEventListener('keyup', e => {
 const playing = {}; // playing[playingNote] = noteAudio
 
 function playNote(key){
+    console.log(key.dataset.octave)
     const noteOctave = `${key.dataset.note}${key.dataset.octave}`
     if (!key.dataset.note) return;
     if (Object.keys(playing).includes(noteOctave)) return;
