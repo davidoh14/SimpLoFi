@@ -7,6 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./dist/main.css" />
     <title>SimpLoFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -22,25 +26,19 @@
         </ul>
     </div>
 </br>
-    <div class="instrument-container">
-        <ul>
-            <li><button class="inst">Piano</button></li>
-            <li><button class="inst">Guitar-Acoustic</button></li>
-            <li><button class="inst">Cello</button></li>
-        </ul>
-    </div>
+
 </br>
     <div class ="octave-container">
         <ul>
             <li><button class="oct">Down</button></li>
-            <li>Octave</li>
+            <li>Octaves</li>
             <li><button class="oct">Up</button></li>
         </ul>
     </div>
 </br>
     <div class="keyboard-container">
         <div class="row-container row1">
-            <div data-note="Fs" data-octave="" data-tier="mid" class="key">1</div>
+            <div data-note="Fs" data-octave="" data-tier="mid" class="key"><div class="inner-key">1</div></div>
             <div data-note="Gs" data-octave="" data-tier="mid" class="key">2</div>
             <div data-note="As" data-octave="" data-tier="mid" class="key">3</div>
             <div data-note="" class="key">_</div>
@@ -90,9 +88,7 @@
         </div>
     </div>
 
-    <audio id="Mystery" src="samples/LANDR/Mystery_Gmin9_Ebmaj9_Cmin11_Ebminmaj7.wav">Mystery</audio>
     <audio id="Chill" src="samples/LANDR/Chill_Gmaj7_Gbmin7_Amin7b5.wav">Chill</audio>
-    <audio id="Sunset" src="samples/LANDR/Sunset_Fmin11_Ebmaj9.wav">Sunset</audio>
     <audio id="Pond" src="samples/LANDR/Pond_Ebmaj9_Abmaj13.wav">Pond</audio>
     <audio id="Melancholy" src="samples/LANDR/Melancholy_Cmin11_Fmin9_Cmin11_G7s5.wav">Melancholy</audio>
     <audio id="Reflection" src="samples/LANDR/Reflection_Amin11_D7_Fmaj7_Cmaj7.wav">Reflection</audio>

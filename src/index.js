@@ -130,48 +130,78 @@ chords.forEach(chord => {
     chord.addEventListener('click', () => playToggle(chord));
 })
 
-const playingChord = {}; // 'chord.dataset.file' : [chord, chordAudio]
-// let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-// let playingChordAudio = playingChordKVP[1][1]; 
+let playingChord = {}; // 'chord.dataset.file' : [chord, chordAudio]
+let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
+let playingChordAudio = playingChordKVP[1][1]; 
+
+let isPlaying = false;
 
 function playToggle(chord){
+    
     const existingChord = Object.keys(playingChord) // returns chord.dataset.file as Mystery
     const newChord = chord.dataset.file // returns chord.dataset.file as Mystery
     
+    
+    // playChord(chord)
+    console.log(existingChord, 'this is existingChord');
     if (existingChord[0] === newChord) {
+        console.log(chord,'line 146')
         pauseChord(chord)
-    // } else if (existingChord.length && (existingChord[0] !== newChord)) {
-    //     console.log('2')
-    //     pauseChord(chord);
-    //     playChord(chord);
+    } else if (existingChord.length && (existingChord[0] !== newChord)) {
+        console.log('2')
+        pauseChord(playingChordKVP);
+        playChord(chord);
     } else {
         playChord(chord);
     }
 }
 
 function playChord(chord){
-    const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
-    const chordAudio = new Audio(chordURL);
-    recommended(chord);
     
-    chordAudio.play();
-    chordAudio.loop = true;
-    chord.classList.add('active');
-    playingChord[chord.dataset.file] = [chord, chordAudio];
-    console.log(playingChord)
+    // if (isPlaying === false)
+    //     {
+        const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
+        const chordAudio = new Audio(chordURL);
+        recommended(chord);
+        
+        chordAudio.currentTime = 0;
+        chordAudio.play();
+        
+        chordAudio.loop = true;
+        chord.classList.add('active');
+        playingChord[chord.dataset.file] = [chord, chordAudio];
+        //     isPlaying = true;
+        // } else if (isPlaying === true) {
+            //     // console.log(chord, 'this is the chord');
+            //     // console.log(chordAudio, 'this is the chordAudio');
+            //     // // chordAudio.pause();
+            //     let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
+            //     let playingChordAudio = playingChordKVP[1][1]; 
+            //     playingChordAudio.pause();
+            //     playingChordAudio.currentTime = 0;
+            
+            //         // chordAudio.currentTime = 0;
+    //         isPlaying = false;
+    // }
 }
 
 function pauseChord(chord){
     let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-    let playingChordAudio = playingChordKVP[1][1]; 
-    
+    let playingChordAudio = playingChordKVP[1][1];
+
+    console.log(chord, 'this is pauseChord chord')
     playingChordAudio.pause();
-    chord.classList.remove('active');
-    unrecommended(chord);
-    delete playingChord[chord.dataset.file];
+    playingChordAudio.currentTime = 0;
+    
+    unrecommended();
+    // chord.classList.remove('active');
+    // delete playingChord[chord.dataset.file];
+    playingChord = {};
 }
 
 function recommended(chord) {
+    // console.log(chord, 'this is the chord from recommended');
+    
     const mkey = chord.dataset.mkey;
     
     keys.forEach(key => {
@@ -181,14 +211,13 @@ function recommended(chord) {
     });
 }
 
-function unrecommended(chord) {
-    const mkey = chord.dataset.mkey;
+function unrecommended() {
+    // console.log(chord, 'this is the chord from UNrecommended');
+    // const mkey = playingChordKVP.dataset.mkey;
     
     keys.forEach(key => {
-        if (scales[mkey].includes(key.dataset.note)) {
-            key.classList.remove('recommended');
-        };
-    });
+        key.classList.remove('recommended');
+    })
 }
 
 
