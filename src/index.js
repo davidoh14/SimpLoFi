@@ -11,19 +11,39 @@ const scales = {
     'GM7':['G', 'B', 'Fs', 'D', 'B', 'A', 'C', 'Ds', 'E']
 }
 
+const inst = {
+    'piano': [0,1,2,3,4,5,6],
+    'guitar-acoustic': [1,2,3],
+    'cello': [2,3,4]
+}
+
+let current_inst = 'piano'
+let high_octave = inst[current_inst].slice(-1)[0]
+let low_octave = high_octave - 3
+
 const keys = document.querySelectorAll('.key')
+const instruments = document.querySelectorAll('.inst')
+console.log(instruments)
 
 keys.forEach(key => {
     key.addEventListener('click', () => playNote(key))
 })
+
+instruments.forEach(inst => {
+    inst.addEventListener('click', () => changeInst(inst))
+})
+
+function changeInst(inst) {
+    current_inst = inst.innerText.toLowerCase();
+}
 
 document.addEventListener('keydown', e => {
     if (e.repeat) return
     const key = e.key;
     const keyIndex = keyboard.indexOf(key);
 
-    if (keyIndex > -1) playNote(keys[keyIndex])
-})
+    if (keyIndex > -1) playNote(keys[keyIndex]);
+});
 
 document.addEventListener('keyup', e => {
     const key = e.key;
@@ -34,12 +54,12 @@ document.addEventListener('keyup', e => {
 
     if (keyIndex > -1) {
         keys[keyIndex].classList.remove('active');
-        const playingNote = Object.keys(playing).filter(key => key === noteOctave)
-        const noteAudio = playing[playingNote]
+        const playingNote = Object.keys(playing).filter(key => key === noteOctave);
+        const noteAudio = playing[playingNote];
         stopNote(noteAudio);
-        delete playing[noteOctave]
-    }
-})
+        delete playing[noteOctave];
+    };
+});
 
 const playing = {}; // playing[playingNote] = noteAudio
 
@@ -48,7 +68,7 @@ function playNote(key){
     if (!key.dataset.note) return;
     if (Object.keys(playing).includes(noteOctave)) return;
 
-    const noteURL = "samples/piano/" + key.dataset.note + key.dataset.octave + ".wav";
+    const noteURL = "samples/" + current_inst + "/" + key.dataset.note + key.dataset.octave + ".wav";
     const noteAudio = new Audio(noteURL)
     noteAudio.currentTime = 0
 
@@ -63,7 +83,6 @@ function playNote(key){
 function stopNote(noteAudio){
     // noteAudio.volume = 1
     // const fadePoint = noteAudio.currentTime;
-
     noteAudio.pause();
 }
 
@@ -103,6 +122,16 @@ function playChord(chord){
     console.log(playingChord)
 }
 
+function pauseChord(chord){
+    let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
+    let playingChordAudio = playingChordKVP[1][1]; 
+    
+    playingChordAudio.pause();
+    chord.classList.remove('active');
+    unrecommended(chord);
+    delete playingChord[chord.dataset.file];
+}
+
 function recommended(chord) {
     const mkey = chord.dataset.mkey;
     
@@ -121,16 +150,6 @@ function unrecommended(chord) {
             key.classList.remove('recommended');
         };
     });
-}
-
-function pauseChord(chord){
-    let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-    let playingChordAudio = playingChordKVP[1][1]; 
-    
-    playingChordAudio.pause();
-    chord.classList.remove('active');
-    unrecommended(chord);
-    delete playingChord[chord.dataset.file];
 }
 
 
