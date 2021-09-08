@@ -5,8 +5,8 @@ const keyboard = [
 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
 
 const scales = {
-    'Gm9':['G', 'As', 'D', 'F', 'A'],
-    'Cm11':['C', 'Ds', 'G', 'As', 'D', 'Fs']
+    'Gm9':['C', 'G', 'As', 'D', 'F', 'A', 'Ds'],
+    'Cm11':['C', 'Ds', 'G', 'As', 'D', 'F', 'A']
 }
 
 const keys = document.querySelectorAll('.key')
@@ -29,7 +29,6 @@ document.addEventListener('keyup', e => {
 
     const divKey = keys[keyIndex]
     const noteOctave = `${divKey.dataset.note}${divKey.dataset.octave}`
-    
 
     if (keyIndex > -1) {
         keys[keyIndex].classList.remove('active');
@@ -60,11 +59,10 @@ function playNote(key){
 }
 
 function stopNote(noteAudio){
-    noteAudio.volume = 1
-    const fadePoint = noteAudio.currentTime;
+    // noteAudio.volume = 1
+    // const fadePoint = noteAudio.currentTime;
 
     noteAudio.pause();
-
 }
 
 const chords = document.querySelectorAll('.chord')
@@ -82,12 +80,11 @@ function playToggle(chord){
     
     if (existingChord[0] === newChord) {
         pauseChord(chord)
-    } else if (existingChord.length && (existingChord[0] !== newChord)) {
-        console.log('2')
-        pauseChord(chord);
-        playChord(chord);
+    // } else if (existingChord.length && (existingChord[0] !== newChord)) {
+    //     console.log('2')
+    //     pauseChord(chord);
+    //     playChord(chord);
     } else {
-        console.log('3')
         playChord(chord);
     }
 }
@@ -114,12 +111,23 @@ function recommended(chord) {
     });
 }
 
+function unrecommended(chord) {
+    const mkey = chord.dataset.mkey;
+    
+    keys.forEach(key => {
+        if (scales[mkey].includes(key.dataset.note)) {
+            key.classList.remove('recommended');
+        };
+    });
+}
+
 function pauseChord(chord){
     let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
     let playingChordAudio = playingChordKVP[1][1]; 
     
     playingChordAudio.pause();
     chord.classList.remove('active');
+    unrecommended(chord);
     delete playingChord[chord.dataset.file];
 }
 
