@@ -133,7 +133,9 @@ button {
 
 .oct-text {
     padding: 7px 10px;
-   font-size: 15px; 
+   font-size: 10px; 
+   color: black;
+   background-color: rgba(255, 255, 255, 0.507)
 }
 
 .recommended {
