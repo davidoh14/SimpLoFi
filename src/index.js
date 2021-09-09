@@ -28,11 +28,6 @@ const setKeys = function() {keys.forEach(key => {
     let mid_oct = high_oct - 1
     let low_oct = high_oct - 2
 
-    // if (low_oct < 0) {
-    //     low_oct === null
-    // }
-    
-    
     key.addEventListener('click', () => playNote(key))
     if (key.dataset.tier === "high") {
         key.setAttribute("data-octave", `${high_oct}`);
@@ -51,16 +46,18 @@ octs.forEach(oct => {
         console.log(high_oct);
         console.log(octRange[2]);
         console.log(octRange.slice(-1)[0]);
-        if (high_oct > octRange[2] && high_oct <= octRange.slice(-1)[0]) {
-            if (e.target.innerText === 'Down') {
-                high_oct -= 1;
-                setKeys();
-            } else {
-                high_oct += 1;
-                setKeys();
-            }
-        // } else {
+
+        // if (high_oct > octRange[2] && high_oct <= octRange.slice(-1)[0]) {
         //     alert('Octaves out of range');
+        //     return;
+        // }
+        
+        if (e.target.innerText === 'Down') {
+            high_oct -= 1;
+            setKeys();
+        } else {
+            high_oct += 1;
+            setKeys();
         }
     }
 )})
@@ -162,6 +159,7 @@ function playChord(chord){
     //     {
         const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
         const chordAudio = new Audio(chordURL);
+        chordAudio.volume = 0.5;
         recommended(chord);
         
         chordAudio.currentTime = 0;
@@ -170,32 +168,20 @@ function playChord(chord){
         chordAudio.loop = true;
         chord.classList.add('active');
         playingChord[chord.dataset.file] = [chord, chordAudio];
-        //     isPlaying = true;
-        // } else if (isPlaying === true) {
-            //     // console.log(chord, 'this is the chord');
-            //     // console.log(chordAudio, 'this is the chordAudio');
-            //     // // chordAudio.pause();
-            //     let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-            //     let playingChordAudio = playingChordKVP[1][1]; 
-            //     playingChordAudio.pause();
-            //     playingChordAudio.currentTime = 0;
-            
-            //         // chordAudio.currentTime = 0;
-    //         isPlaying = false;
-    // }
 }
 
 function pauseChord(chord){
     let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
     let playingChordAudio = playingChordKVP[1][1];
 
-    console.log(chord, 'this is pauseChord chord')
+    console.log(playingChordKVP[0])
     playingChordAudio.pause();
     playingChordAudio.currentTime = 0;
+    chords.forEach(chord => {
+        chord.classList.remove('active');
+    });
     
-    unrecommended();
-    // chord.classList.remove('active');
-    // delete playingChord[chord.dataset.file];
+    unrecommend();
     playingChord = {};
 }
 
@@ -211,7 +197,7 @@ function recommended(chord) {
     });
 }
 
-function unrecommended() {
+function unrecommend() {
     // console.log(chord, 'this is the chord from UNrecommended');
     // const mkey = playingChordKVP.dataset.mkey;
     
