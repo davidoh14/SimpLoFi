@@ -1,7 +1,8 @@
-// window.addEventListener("DOMContentLoaded", () => {
-//     setKeys();
-
-// })
+window.addEventListener("DOMContentLoaded", () => {
+    setKeys();
+    // display_oct();
+    // console.log(high_oct)
+})
 
 const keyboard = [
 '1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-', 
@@ -28,6 +29,15 @@ let high_oct = inst[current_inst].slice(-1)[0]
 let keys = document.querySelectorAll('.key')
 let instruments = document.querySelectorAll('.inst')
 let octs = document.querySelectorAll('.oct') 
+// let oct_display = document.getElementsByClassName('.oct-text').innerHTML;
+
+// function display_oct(high_oct){
+//     let mid_oct = high_oct - 1
+//     let low_oct = high_oct - 2
+
+//     oct_display = `${low_oct} ${mid_oct} ${high_oct}` 
+//     // low_oct + " " + mid_oct + " " + high_oct
+// }
 
 const setKeys = function() {keys.forEach(key => {
     let mid_oct = high_oct - 1
@@ -51,11 +61,6 @@ octs.forEach(oct => {
         console.log(high_oct);
         console.log(octRange[2]);
         console.log(octRange.slice(-1)[0]);
-
-        // if (high_oct > octRange[2] || high_oct <= octRange.slice(-1)[0]) {
-        //     alert('Octaves out of range');
-        //     return;
-        // }
         
         if (e.target.innerText === 'Down') {
             if (high_oct > octRange[2]) {            
@@ -72,6 +77,7 @@ octs.forEach(oct => {
                 alert('This is the highest octave')
             }
         }
+        // display_oct();
     }
 )})
 
@@ -150,8 +156,6 @@ function playToggle(chord){
     const existingChord = Object.keys(playingChord) // returns chord.dataset.file as Mystery
     const newChord = chord.dataset.file // returns chord.dataset.file as Mystery
     
-    // playChord(chord)
-    console.log(existingChord, 'this is existingChord');
     if (existingChord[0] === newChord) {
         pauseChord(chord)
     } else if (existingChord.length && (existingChord[0] !== newChord)) {
