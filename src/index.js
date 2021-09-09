@@ -52,17 +52,25 @@ octs.forEach(oct => {
         console.log(octRange[2]);
         console.log(octRange.slice(-1)[0]);
 
-        // if (high_oct > octRange[2] && high_oct <= octRange.slice(-1)[0]) {
+        // if (high_oct > octRange[2] || high_oct <= octRange.slice(-1)[0]) {
         //     alert('Octaves out of range');
         //     return;
         // }
         
         if (e.target.innerText === 'Down') {
-            high_oct -= 1;
-            setKeys();
+            if (high_oct > octRange[2]) {            
+                high_oct -= 1;
+                setKeys();
+            } else {
+                alert('This is the lowest octave')
+            }
         } else {
-            high_oct += 1;
-            setKeys();
+            if (high_oct <= octRange.slice(-1)[0]) {
+                high_oct += 1;
+                setKeys();
+            } else {
+                alert('This is the highest octave')
+            }
         }
     }
 )})
@@ -142,14 +150,11 @@ function playToggle(chord){
     const existingChord = Object.keys(playingChord) // returns chord.dataset.file as Mystery
     const newChord = chord.dataset.file // returns chord.dataset.file as Mystery
     
-    
     // playChord(chord)
     console.log(existingChord, 'this is existingChord');
     if (existingChord[0] === newChord) {
-        console.log(chord,'line 146')
         pauseChord(chord)
     } else if (existingChord.length && (existingChord[0] !== newChord)) {
-        console.log('2')
         pauseChord(playingChordKVP);
         playChord(chord);
     } else {
@@ -158,8 +163,6 @@ function playToggle(chord){
 }
 
 function playChord(chord){
-    // if (isPlaying === false)
-    //     {
         const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
         const chordAudio = new Audio(chordURL);
         chordAudio.volume = 0.5;
@@ -189,8 +192,6 @@ function pauseChord(chord){
 }
 
 function recommended(chord) {
-    // console.log(chord, 'this is the chord from recommended');
-    
     const mkey = chord.dataset.mkey;
     
     keys.forEach(key => {
@@ -201,9 +202,6 @@ function recommended(chord) {
 }
 
 function unrecommend() {
-    // console.log(chord, 'this is the chord from UNrecommended');
-    // const mkey = playingChordKVP.dataset.mkey;
-    
     keys.forEach(key => {
         key.classList.remove('recommended');
     })
