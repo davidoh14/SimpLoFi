@@ -1,3 +1,8 @@
+// window.addEventListener("DOMContentLoaded", () => {
+//     setKeys();
+
+// })
+
 const keyboard = [
 '1', '2', '3','4', '5', '6', '7', '8', '9', '0', '-', 
 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
@@ -91,7 +96,7 @@ document.addEventListener('keyup', e => {
         keys[keyIndex].classList.remove('active');
         const playingNote = Object.keys(playing).filter(key => key === noteOctave);
         const noteAudio = playing[playingNote];
-        stopNote(noteAudio);
+        // stopNote(noteAudio);
         delete playing[noteOctave];
     };
 });
@@ -99,7 +104,6 @@ document.addEventListener('keyup', e => {
 const playing = {}; // playing[playingNote] = noteAudio
 
 function playNote(key){
-    console.log(key.dataset.octave)
     const noteOctave = `${key.dataset.note}${key.dataset.octave}`
     if (!key.dataset.note) return;
     if (Object.keys(playing).includes(noteOctave)) return;
@@ -154,7 +158,6 @@ function playToggle(chord){
 }
 
 function playChord(chord){
-    
     // if (isPlaying === false)
     //     {
         const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"

@@ -134,57 +134,52 @@ button {
 
 i {
     margin: 5px;
+    color: black;
 }
 
-#info {
+#tooltip {
+    color: rgb(0, 0, 0);
     font-size: 20px;
-    width: 100px;
-    height: 100px;
+    width: 23px;
+    height: 20px;
     position: relative;
+    display: inline-block;
+    max-width: 100%;
 }
 
-/* 
-#info::before,
-#info::after {
-    --scale: 0;
-    --tooltip-color: #333;
+#tooltiptext {
+    visibility: hidden;
+    width: 740px;
+    height: 190px;
+    background-color: rgba(0, 0, 0, 0.377);
+    color: #fff; 
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    line-height: 14px;
+    padding: 20px;
+
     position: absolute;
-    content: attr(data-tooltip);
-    top: -.25rem;
-    height: 50px;
-    width: 50px;
-    background: rgba(0, 0, 0, 0.39);
-    left: 50%;
-    transform: translateX(-55%) translateY(25%) scale(var(--scale));
+    z-index: 1;
+    transform: translateX(-55%) translateY(5%);
+
+}
+
+#info::before,
+#tooltiptext::after{
+    --scale: 0;    
     transition: 150ms transform;
     transform-origin: top center;
 }
 
-#info::before {
-    content: attr(data-tooltip);
-    padding: .5rem;
-    color: white;
-    background: #333;
-    width: max-content;
-    max-width: 100%;
-    border-radius: .3rem;
-    text-align: center;
+
+#tooltip:hover #tooltiptext{
+    visibility: visible;
+    
 }
 
-#info:hover::before {
-    --scale: 1;
-}
 
-#info:hover::before,
-#info:hover::after {
-    --scale: 1;
-}
 
-#info::after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background-color: black;
-    border: 10px solid transparent;
-    border-top-color: black;
-} */
+
