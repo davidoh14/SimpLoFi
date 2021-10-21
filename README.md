@@ -1,4 +1,4 @@
-![Live](https://davidoh14.github.io/)
+[Live](https://davidoh14.github.io/)
 
 # BACKGROUND:
 
