@@ -1,3 +1,5 @@
+![Live](https://davidoh14.github.io/)
+
 # BACKGROUND:
 
 Welcome to SimpLoFi, where anybody can create a mini lo-fi song. Select a chord progression (think of the left hand on a piano that sets you up for the melody) and a drum track. Now all that is left is to simply create a melody, with recommended notes based on the selected chord progression.
