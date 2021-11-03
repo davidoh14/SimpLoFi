@@ -1,4 +1,4 @@
-![screenshot](/assets/SimpLoFi-Feature.png)
+![screenshot](dist/assets/SimpLoFi-Feature.png)
 
 # [Live](https://davidoh14.github.io/)
 
