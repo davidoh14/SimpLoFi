@@ -184,7 +184,6 @@ function pauseChord(chord){
     let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
     let playingChordAudio = playingChordKVP[1][1];
 
-    console.log(playingChordKVP[0])
     playingChordAudio.pause();
     playingChordAudio.currentTime = 0;
     chords.forEach(chord => {

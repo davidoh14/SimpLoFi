@@ -25,8 +25,21 @@
     
     <h1>SimpLoFi</h1>
     <ul class="links">    
-        <a href="https://github.com/davidoh14/SimpLoFi_JS"><i class="fa fa-github" style="font-size:24px" ></i></a>
-        <a href="https://www.linkedin.com/in/david-oh-790071123/"><i class="fa fa-linkedin" style="font-size:24px"></i></a>     
+                <i class="fa fa-github" style="font-size:24px" onClick='github()'></i>
+        <script>
+        function github() {
+            window.open(
+              "https://github.com/davidoh14/SimpLoFi_JS", "_blank");
+        }
+        </script>
+
+        <i class="fa fa-linkedin" style="font-size:24px" onClick='linkedin()'></i>
+        <script>
+        function linkedin() {
+            window.open(
+              "https://www.linkedin.com/in/david-oh-790071123/", "_blank");
+        }
+        </script>
         <i id="tooltip" class="fa fa-info-circle" style="font-size:24px" data-tooltip="info">
             <div id="tooltiptext">
                 Instructions: 
