@@ -94,24 +94,3 @@ function pauseChord(chord){
     playingChord = {};
 }
 ```
-
-
-### IMPLEMENTATION TIMELINE
-
-- Friday Afternoon: 
-    - Setup project and webpack. 
-    - Finalize which technologies to use. 
-    - Understand Tone.js and how to utilize midi files in the program. 
-    - Research music theory to find recommended melody notes dependent on chord progression.
-    
-- Saturday: 
-    - Create all keyboard keys and illuminate create toggle logic for when a note is recommended, and also when it is being pressed
-- Sunday: 
-    - Create logic of chord progression expressing which melody notes will be recommended
-- Monday: 
-    - Set up event listeners for each button to play a given sound. 
-- Tuesday: 
-    - Find 8-bit pixel art to improve UI
-    - Use a piano visualizer
-- Wednesday: 
-    - Continue to improve UI
