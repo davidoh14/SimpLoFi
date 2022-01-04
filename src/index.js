@@ -1,7 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
     setKeys();
-    // display_oct();
-    // console.log(high_oct)
 })
 
 const keyboard = [
@@ -29,15 +27,6 @@ let high_oct = inst[current_inst].slice(-1)[0]
 let keys = document.querySelectorAll('.key')
 let instruments = document.querySelectorAll('.inst')
 let octs = document.querySelectorAll('.oct') 
-// let oct_display = document.getElementsByClassName('.oct-text').innerHTML;
-
-// function display_oct(high_oct){
-//     let mid_oct = high_oct - 1
-//     let low_oct = high_oct - 2
-
-//     oct_display = `${low_oct} ${mid_oct} ${high_oct}` 
-//     // low_oct + " " + mid_oct + " " + high_oct
-// }
 
 const setKeys = function() {keys.forEach(key => {
     let mid_oct = high_oct - 1
@@ -77,7 +66,6 @@ octs.forEach(oct => {
                 alert('This is the highest octave')
             }
         }
-        // display_oct();
     }
 )})
 
@@ -110,7 +98,6 @@ document.addEventListener('keyup', e => {
         keys[keyIndex].classList.remove('active');
         const playingNote = Object.keys(playing).filter(key => key === noteOctave);
         const noteAudio = playing[playingNote];
-        // stopNote(noteAudio);
         delete playing[noteOctave];
     };
 });
@@ -135,8 +122,6 @@ function playNote(key){
 }
 
 function stopNote(noteAudio){
-    // noteAudio.volume = 1
-    // const fadePoint = noteAudio.currentTime;
     noteAudio.pause();
 }
 
@@ -167,17 +152,17 @@ function playToggle(chord){
 }
 
 function playChord(chord){
-        const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
-        const chordAudio = new Audio(chordURL);
-        chordAudio.volume = 0.5;
-        recommended(chord);
-        
-        chordAudio.currentTime = 0;
-        chordAudio.play();
-        
-        chordAudio.loop = true;
-        chord.classList.add('active');
-        playingChord[chord.dataset.file] = [chord, chordAudio];
+    const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
+    const chordAudio = new Audio(chordURL);
+    chordAudio.volume = 0.5;
+    recommended(chord);
+    
+    chordAudio.currentTime = 0;
+    chordAudio.play();
+    
+    chordAudio.loop = true;
+    chord.classList.add('active');
+    playingChord[chord.dataset.file] = [chord, chordAudio];
 }
 
 function pauseChord(chord){
@@ -209,17 +194,3 @@ function unrecommend() {
         key.classList.remove('recommended');
     })
 }
-
-
-// const temp = Object.values(playing).filter(val => val === noteAudio)
-// console.log(temp)
-
-// const fadeAudio = setInterval(function () {
-    //     if ((noteAudio.currentTime >= fadePoint) && (noteAudio.volume > 0.00)) {
-        //         console.log('2')
-        //         noteAudio.volume -= 0.05;
-        //     } else if (noteAudio.volume <= 0.00) {
-            //         console.log('3')
-            //         clearInterval(fadeAudio);
-            //     }
-            // }, 50);
