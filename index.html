@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <meta property='og:title' content='SimpLoFi'/>
-    <meta property='og:image' content='./dist/assets/SimpLoFi-Feature.png' />
+    <meta property='og:image' content='./dist/assets/SimpLoFi-Feature.png'/>
     <meta property='og:description' content='SimpLoFi enables users, even without music experience, to create melodies within the key of a background track through visually recommended notes to press on the keyboard.'/>
     <meta property='og:url' content='https://davidoh14.github.io/'/>
 
-    <link rel="stylesheet" href="./dist/main.css" />
+    <link rel="stylesheet" href="./dist/main.css" type="text/css"/>
     <title>SimpLoFi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,10 +22,9 @@
 </head>
 
 <body>
-    
     <h1>SimpLoFi</h1>
     <ul class="links">    
-                <i class="fa fa-github" style="font-size:24px" onClick='github()'></i>
+        <i class="fa fa-github" style="font-size:24px" onClick='github()'></i>
         <script>
         function github() {
             window.open(
@@ -128,7 +127,6 @@
 
 </br>
 <div class ="octave-container">
-    <!-- <div class="oct-title">Octaves</div> -->
     <ul> 
         <li><button class="oct">Down</button></li>
         <li id="oct-text" class="oct-text">Octaves</li>
@@ -138,6 +136,7 @@
 
    
     <script src="./dist/main.js" defer></script>
+
 </body>
 
 </html>

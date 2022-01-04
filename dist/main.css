@@ -1,13 +1,13 @@
 /*!****************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./src/styles/index.css ***!
   \****************************************************************************************************/
-html { 
+body { 
     background: url(/dist/assets/snow.gif) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-  }
+}
 
 
 h1 {
@@ -16,19 +16,17 @@ h1 {
     font-size: 50px;
     margin-top: 50px;
     font-family: 'Press Start 2P', cursive;
-    /* font-family: manaspace; */
     min-width: 100px;
 }
+
 .row-container {
     display: flex;
     justify-content: center;
-
 }
 
 .key{
     border:  0.5px dotted rgb(177, 177, 177);
     border-style: outset;
-    /* padding: 10px 15px; */
     width: 50px;
     height: 50px;
     background-color: rgb(168, 168, 168);
@@ -66,7 +64,6 @@ h1 {
 }
 
 .keyboard-container {
-    /* border: 10px solid rgb(141, 141, 141); */
     box-shadow: 0 0 0 4px rgba(124, 123, 123, 0.767);
     width: 700px;
     margin-left: auto;
@@ -127,10 +124,6 @@ button {
     justify-content: center;
 }
 
-/* .octave-container {
-
-} */
-
 .oct-text {
     padding: 7px 10px;
    font-size: 10px; 
@@ -139,7 +132,6 @@ button {
 }
 
 .recommended {
-    /* border: 2px solid rgb(255, 236, 64); */
     background-color: rgb(241, 231, 90);
 }
 
@@ -192,7 +184,6 @@ i {
 
 #tooltip:hover #tooltiptext{
     visibility: visible;
-    
 }
 
 
