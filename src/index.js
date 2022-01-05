@@ -135,7 +135,7 @@ function playChord(chord){
     const chordAudio = new Audio(chordURL);
     chordAudio.volume = 0.5;
     recommend(chord);
-    
+
     chordAudio.currentTime = 0;
     chordAudio.play();
 
@@ -157,8 +157,6 @@ function pauseChord(){
 
 
 
-
-
 function recommend(chord) {
     const mkey = chord.dataset.mkey;
     
@@ -174,3 +172,8 @@ function unrecommend() {
         key.classList.remove('recommend');
     })
 }
+
+
+
+
+

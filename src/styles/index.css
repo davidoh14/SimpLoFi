@@ -1,5 +1,5 @@
 body { 
-    background: url(/dist/assets/snow.gif) no-repeat center center fixed; 
+    background: url(https://raw.githubusercontent.com/davidoh14/SimpLoFi/9d30301554cf61a458ff8baaaea876e6ddb54255/dist/assets/snow.gif) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -139,7 +139,15 @@ button {
 i {
     margin: 5px;
     color: black;
+    cursor: pointer;
+
 }
+
+#player {
+    display: flex;
+    justify-content: center;
+}
+
 
 #tooltip {
     color: rgb(0, 0, 0);
