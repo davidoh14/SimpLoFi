@@ -1,6 +1,6 @@
 ![screenshot](dist/assets/SimpLoFi-Feature.png)
 
-# [Live](https://davidoh14.github.io/)
+# [Live](https://davidoh14.github.io/SimpLoFi/)
 
 # BACKGROUND:
 
