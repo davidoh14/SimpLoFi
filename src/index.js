@@ -17,16 +17,15 @@ const scales = {
 
 const inst = {
     'piano': [0,1,2,3,4,5,6],
-    'guitar-acoustic': [1,2,3],
-    'cello': [2,3,4]
 }
 
 let current_inst = 'piano'
 let high_oct = inst[current_inst].slice(-1)[0]
 
 let keys = document.querySelectorAll('.key')
-let instruments = document.querySelectorAll('.inst')
 let octs = document.querySelectorAll('.oct') 
+
+const playing = {}; // playing[playingNote] = noteAudio
 
 const setKeys = function() {keys.forEach(key => {
     let mid_oct = high_oct - 1
@@ -47,9 +46,6 @@ setKeys();
 octs.forEach(oct => {
     oct.addEventListener('click', (e) => {
         const octRange = inst[current_inst]
-        console.log(high_oct);
-        console.log(octRange[2]);
-        console.log(octRange.slice(-1)[0]);
         
         if (e.target.innerText === 'Down') {
             if (high_oct > octRange[2]) {            
@@ -70,21 +66,12 @@ octs.forEach(oct => {
 )})
 
 
-instruments.forEach(inst => {
-    inst.addEventListener('click', () => changeInst(inst))
-})
-
-function changeInst(inst) {
-    const current_inst = inst.innerText.toLowerCase();
-    high_oct = inst[current_inst].slice(-1)[0];
-}
-
 document.addEventListener('keydown', e => {
     if (e.repeat) return
     const key = e.key;
     const keyIndex = keyboard.indexOf(key);
 
-    if (keyIndex > -1) playNote(keys[keyIndex]);
+    playNote(keys[keyIndex]);
 });
 
 document.addEventListener('keyup', e => {
@@ -94,15 +81,9 @@ document.addEventListener('keyup', e => {
     const divKey = keys[keyIndex]
     const noteOctave = `${divKey.dataset.note}${divKey.dataset.octave}`
 
-    if (keyIndex > -1) {
-        keys[keyIndex].classList.remove('active');
-        const playingNote = Object.keys(playing).filter(key => key === noteOctave);
-        const noteAudio = playing[playingNote];
-        delete playing[noteOctave];
-    };
+    keys[keyIndex].classList.remove('active');
+    delete playing[noteOctave];
 });
-
-const playing = {}; // playing[playingNote] = noteAudio
 
 function playNote(key){
     const noteOctave = `${key.dataset.note}${key.dataset.octave}`
@@ -111,42 +92,40 @@ function playNote(key){
 
     const noteURL = "samples/" + current_inst + "/" + key.dataset.note + key.dataset.octave + ".wav";
     const noteAudio = new Audio(noteURL)
-    noteAudio.currentTime = 0
 
     noteAudio.play()
     noteAudio.classList.add('playing')
     playing[`${key.dataset.note}${key.dataset.octave}`] = noteAudio
 
     key.classList.add('active')
-    noteAudio.addEventListener('ended', () => key.classList.remove('active')) // for legato mode
+    noteAudio.addEventListener('ended', () => key.classList.remove('active'))
 }
 
 function stopNote(noteAudio){
     noteAudio.pause();
 }
 
+
+
+
+let playingChordAudio;
+
 const chords = document.querySelectorAll('.chord')
+
 chords.forEach(chord => {
     chord.addEventListener('click', () => playToggle(chord));
 })
 
-let playingChord = {}; // 'chord.dataset.file' : [chord, chordAudio]
-let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-let playingChordAudio = playingChordKVP[1][1]; 
-
-let isPlaying = false;
-
 function playToggle(chord){
-    
-    const existingChord = Object.keys(playingChord) // returns chord.dataset.file as Mystery
-    const newChord = chord.dataset.file // returns chord.dataset.file as Mystery
-    
-    if (existingChord[0] === newChord) {
-        pauseChord(chord)
-    } else if (existingChord.length && (existingChord[0] !== newChord)) {
-        pauseChord(playingChordKVP);
+    const newChord = chord.dataset.file // returns chord.dataset.file as 'Mystery'
+
+    if (!playingChordAudio){
         playChord(chord);
+        return;
+    } else if (playingChordAudio.src.includes(newChord)) {
+        pauseChord(chord)
     } else {
+        pauseChord();
         playChord(chord);
     }
 }
@@ -155,20 +134,17 @@ function playChord(chord){
     const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
     const chordAudio = new Audio(chordURL);
     chordAudio.volume = 0.5;
-    recommended(chord);
+    recommend(chord);
     
     chordAudio.currentTime = 0;
     chordAudio.play();
-    
+
     chordAudio.loop = true;
     chord.classList.add('active');
-    playingChord[chord.dataset.file] = [chord, chordAudio];
+    playingChordAudio = chordAudio;
 }
 
-function pauseChord(chord){
-    let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-    let playingChordAudio = playingChordKVP[1][1];
-
+function pauseChord(){
     playingChordAudio.pause();
     playingChordAudio.currentTime = 0;
     chords.forEach(chord => {
@@ -176,21 +152,25 @@ function pauseChord(chord){
     });
     
     unrecommend();
-    playingChord = {};
+    playingChordAudio = null;
 }
 
-function recommended(chord) {
+
+
+
+
+function recommend(chord) {
     const mkey = chord.dataset.mkey;
     
     keys.forEach(key => {
         if (scales[mkey].includes(key.dataset.note)) {
-            key.classList.add('recommended');
+            key.classList.add('recommend');
         };
     });
 }
 
 function unrecommend() {
     keys.forEach(key => {
-        key.classList.remove('recommended');
+        key.classList.remove('recommend');
     })
 }
