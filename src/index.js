@@ -25,8 +25,6 @@ let high_oct = inst[current_inst].slice(-1)[0]
 let keys = document.querySelectorAll('.key')
 let octs = document.querySelectorAll('.oct') 
 
-const playing = {}; // playing[playingNote] = noteAudio
-
 const setKeys = function() {keys.forEach(key => {
     let mid_oct = high_oct - 1
     let low_oct = high_oct - 2
@@ -66,6 +64,10 @@ octs.forEach(oct => {
 )})
 
 
+
+
+const playing = {}; // playing[playingNote] = noteAudio
+
 document.addEventListener('keydown', e => {
     if (e.repeat) return
     const key = e.key;
@@ -101,14 +103,8 @@ function playNote(key){
     noteAudio.addEventListener('ended', () => key.classList.remove('active'))
 }
 
-function stopNote(noteAudio){
-    noteAudio.pause();
-}
 
 
-
-
-let playingChordAudio;
 
 const chords = document.querySelectorAll('.chord')
 
@@ -116,12 +112,13 @@ chords.forEach(chord => {
     chord.addEventListener('click', () => playToggle(chord));
 })
 
+let playingChordAudio;
+
 function playToggle(chord){
-    const newChord = chord.dataset.file // returns chord.dataset.file as 'Mystery'
+    const newChord = chord.dataset.file // returns chord.dataset.file as 'Pond...'
 
     if (!playingChordAudio){
         playChord(chord);
-        return;
     } else if (playingChordAudio.src.includes(newChord)) {
         pauseChord(chord)
     } else {
@@ -172,8 +169,5 @@ function unrecommend() {
         key.classList.remove('recommend');
     })
 }
-
-
-
 
 

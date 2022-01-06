@@ -2,29 +2,9 @@
 
 # [Live](https://davidoh14.github.io/SimpLoFi/)
 
-# BACKGROUND:
+# OVERVIEW:
 
-Welcome to SimpLoFi, where anybody can create a mini lo-fi song. Select a chord progression (think of the left hand on a piano that sets you up for the melody). Now all that is left is to simply create a melody, with recommended notes based on the selected chord progression.
-
-
-### FUNCTIONALITY
-    
-In SimpLoFi, users will be able to:
-- Select one of the provided chord progressions to create the basis for the melody 
-- Select one of the provided drum beats
-- Create a melody by selecting notes within the recommended notes, which are based on selected chord progression.
-- Control volumes for drums, chord progression, and melody independently
-- Select ambient noises
-- Select different instruments
-- Change tempo
-- Record and playback 
-
-
-### MVPS
-
-- One chord progression
-- One drum track
-- Keyboard visualization: Each key on the keyboard will represent a note, and each note that falls within the chord progressions will illuminate as recommendations
+SimpLoFi allows you to make a mini lo-fi song, without learning music theory. Select a background track, and the keyboard keys representing piano notes that match the musical key of the background track will illuminate. Just play any of these recommended notes to make your own melody!
 
 
 ### WIREFRAME
@@ -33,57 +13,47 @@ In SimpLoFi, users will be able to:
 
 TECHNOLOGIES, LIBRARIES, APIs:
 
+- Javascript, DOM
 - HTML
 - CSS
-- Javascript, DOM
-- Tone.js
-- Import instruments from Logic
 
 
 ## IMPLEMENTATION
 
-The biggest challenge of the project was enabling access to all the different parts of a chord progression. There were three main forms of a chord to keep track of: the filename reference to the chord, the playing audio instance of the chord, and the main chord object that would be passed as arguments to functions. Each time a chord was played, a separate playing audio instance would be created. This meant that you could not simply pause it by referencing the original chord object, but would have to separate the playing audio instance as a global variable. Otherwise, the play/pause toggle would just be creating new playing audio instances that would play simultaneously every time you would try to pause or play. 
+The largest challenge of the project was designing the logic of how the background tracks would play. Because I needed the ability to play/pause the same track, while enabling the ability to play another track and simultaneously pause the current track, I used a toggle function. I created a global variable for the toggle function to refer to, in order to see if a track already exists. Now this function can easily allocate pause and play functions to the track that is already playing, and the new track to be played.
+
 
 ```js
-let playingChord = {}; // returns 'chord.dataset.file' : [chord, chordAudio]
-let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-let playingChordAudio = playingChordKVP[1][1]; 
-
-let isPlaying = false;
+let playingChordAudio;
 
 function playToggle(chord){
-    
-    const existingChord = Object.keys(playingChord) // returns chord.dataset.file as Mystery
-    const newChord = chord.dataset.file // returns chord.dataset.file as Mystery
-    
-    if (existingChord[0] === newChord) {
-        pauseChord(chord)
-    } else if (existingChord.length && (existingChord[0] !== newChord)) {
-        pauseChord(playingChordKVP);
+    const newChord = chord.dataset.file // returns chord.dataset.file as 'Pond...'
+
+    if (!playingChordAudio){
         playChord(chord);
+    } else if (playingChordAudio.src.includes(newChord)) {
+        pauseChord(chord)
     } else {
+        pauseChord();
         playChord(chord);
     }
 }
 
 function playChord(chord){
-        const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
-        const chordAudio = new Audio(chordURL);
-        chordAudio.volume = 0.5;
-        recommended(chord);
-        
-        chordAudio.currentTime = 0;
-        chordAudio.play();
-        
-        chordAudio.loop = true;
-        chord.classList.add('active');
-        playingChord[chord.dataset.file] = [chord, chordAudio];
+    const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
+    const chordAudio = new Audio(chordURL);
+    chordAudio.volume = 0.5;
+    recommend(chord);
+
+    chordAudio.currentTime = 0;
+    chordAudio.play();
+
+    chordAudio.loop = true;
+    chord.classList.add('active');
+    playingChordAudio = chordAudio;
 }
 
-function pauseChord(chord){
-    let playingChordKVP = Object.entries(playingChord)[0]; // returns ['chord.dataset.file', [li.chord.active, audio]]
-    let playingChordAudio = playingChordKVP[1][1];
-
+function pauseChord(){
     playingChordAudio.pause();
     playingChordAudio.currentTime = 0;
     chords.forEach(chord => {
@@ -91,6 +61,65 @@ function pauseChord(chord){
     });
     
     unrecommend();
-    playingChord = {};
+    playingChordAudio = null;
 }
+```
+
+Another fun challenge was creating octave changes for the piano keys. Finding a sample set for the piano keys with each note and octave labeled gave me the idea of setting each keyboard key as an HTML element with separate attributes for a musical note and octave. Each keyboard key consistently represents the same musical note, but the octave attribute is one of three variables so that the octave setting function can modulate their values between octaves 0 through 7 that are made available through the sample set.
+
+HTML
+
+```html
+<div data-note="Fs" data-octave="" data-tier="mid" class="key"><div class="inner-key">1</div></div>
+```
+
+JS
+```js
+const inst = {
+    'piano': [0,1,2,3,4,5,6],
+}
+
+let current_inst = 'piano'
+let high_oct = inst[current_inst].slice(-1)[0]
+
+let keys = document.querySelectorAll('.key')
+let octs = document.querySelectorAll('.oct') 
+
+const setKeys = function() {keys.forEach(key => {
+    let mid_oct = high_oct - 1
+    let low_oct = high_oct - 2
+
+    key.addEventListener('click', () => playNote(key))
+    if (key.dataset.tier === "high") {
+        key.setAttribute("data-octave", `${high_oct}`);
+    } else if (key.dataset.tier === "mid") {
+        key.setAttribute("data-octave", `${mid_oct}`);
+    } else {
+        key.setAttribute("data-octave", `${low_oct}`);
+    }
+})}
+
+setKeys();
+
+octs.forEach(oct => {
+    oct.addEventListener('click', (e) => {
+        const octRange = inst[current_inst]
+        
+        if (e.target.innerText === 'Down') {
+            if (high_oct > octRange[2]) {            
+                high_oct -= 1;
+                setKeys();
+            } else {
+                alert('This is the lowest octave')
+            }
+        } else {
+            if (high_oct <= octRange.slice(-1)[0]) {
+                high_oct += 1;
+                setKeys();
+            } else {
+                alert('This is the highest octave')
+            }
+        }
+    }
+)})
 ```
