@@ -66,7 +66,6 @@ octs.forEach(oct => {
 
 
 
-const playing = {}; // playing[playingNote] = noteAudio
 
 document.addEventListener('keydown', e => {
     if (e.repeat) return
@@ -80,24 +79,17 @@ document.addEventListener('keyup', e => {
     const key = e.key;
     const keyIndex = keyboard.indexOf(key);
 
-    const divKey = keys[keyIndex]
-    const noteOctave = `${divKey.dataset.note}${divKey.dataset.octave}`
-
     keys[keyIndex].classList.remove('active');
-    delete playing[noteOctave];
 });
 
 function playNote(key){
-    const noteOctave = `${key.dataset.note}${key.dataset.octave}`
     if (!key.dataset.note) return;
-    if (Object.keys(playing).includes(noteOctave)) return;
 
     const noteURL = "samples/" + current_inst + "/" + key.dataset.note + key.dataset.octave + ".wav";
     const noteAudio = new Audio(noteURL)
 
     noteAudio.play()
     noteAudio.classList.add('playing')
-    playing[`${key.dataset.note}${key.dataset.octave}`] = noteAudio
 
     key.classList.add('active')
     noteAudio.addEventListener('ended', () => key.classList.remove('active'))

@@ -70,7 +70,7 @@ Another fun challenge was creating octave changes for the piano keys. Finding a 
 HTML
 
 ```html
-<div data-note="Fs" data-octave="" data-tier="mid" class="key"><div class="inner-key">1</div></div>
+<div data-note="Fs" data-octave="" data-tier="mid" class="key"><div class="inner-key">1</div></div> //
 ```
 
 JS
