@@ -1,4 +1,4 @@
-![screenshot](dist/assets/SimpLoFi-Feature.png)
+https://user-images.githubusercontent.com/86807281/148483698-f3f8a384-3958-42a8-acfd-c3a3e364ba84.mp4
 
 # [Live](https://davidoh14.github.io/SimpLoFi/)
 
@@ -123,3 +123,8 @@ octs.forEach(oct => {
     }
 )})
 ```
+
+## UPCOMING FUNCTIONALITY
+1. Additional instruments
+2. Record
+3. Separate drum tracks from background tracks
