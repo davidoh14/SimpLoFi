@@ -11,7 +11,7 @@ SimpLoFi allows you to make a mini lo-fi song, without learning music theory. Se
 
 ![Homepage](https://user-images.githubusercontent.com/86807281/131962154-f521d09e-e265-4bf7-bfc7-752982975270.png)
 
-TECHNOLOGIES, LIBRARIES, APIs:
+### TECHNOLOGIES, LIBRARIES, APIs:
 
 - Javascript, DOM
 - HTML
@@ -20,52 +20,7 @@ TECHNOLOGIES, LIBRARIES, APIs:
 
 ## IMPLEMENTATION
 
-The largest challenge of the project was designing the logic of how the background tracks would play. Because I needed the ability to play/pause the same track, while enabling the ability to play another track and simultaneously pause the current track, I used a toggle function. I created a global variable for the toggle function to refer to, in order to see if a track already exists. Now this function can easily allocate pause and play functions to the track that is already playing, and the new track to be played.
-
-
-```js
-let playingChordAudio;
-
-function playToggle(chord){
-    const newChord = chord.dataset.file // returns chord.dataset.file as 'Pond...'
-
-    if (!playingChordAudio){
-        playChord(chord);
-    } else if (playingChordAudio.src.includes(newChord)) {
-        pauseChord(chord)
-    } else {
-        pauseChord();
-        playChord(chord);
-    }
-}
-
-function playChord(chord){
-    const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
-    const chordAudio = new Audio(chordURL);
-    chordAudio.volume = 0.5;
-    recommend(chord);
-
-    chordAudio.currentTime = 0;
-    chordAudio.play();
-
-    chordAudio.loop = true;
-    chord.classList.add('active');
-    playingChordAudio = chordAudio;
-}
-
-function pauseChord(){
-    playingChordAudio.pause();
-    playingChordAudio.currentTime = 0;
-    chords.forEach(chord => {
-        chord.classList.remove('active');
-    });
-    
-    unrecommend();
-    playingChordAudio = null;
-}
-```
-
-Another fun challenge was creating octave changes for the piano keys. Finding a sample set for the piano keys with each note and octave labeled gave me the idea of setting each keyboard key as an HTML element with separate attributes for a musical note and octave. Each keyboard key consistently represents the same musical note, but the octave attribute is one of three variables so that the octave setting function can modulate their values between octaves 0 through 7 that are made available through the sample set.
+The main challenge of the project was designing the logic of key presses corresponding to piano notes. Finding a sample set for the piano keys with each .wav file labeled by note and octave ('A6') gave me the idea of setting each keyboard key as an HTML element with separate attributes for a musical note and octave. 
 
 HTML
 
@@ -73,7 +28,41 @@ HTML
 <div data-note="Fs" data-octave="" data-tier="mid" class="key"><div class="inner-key">1</div></div>
 ```
 
-JS
+I considered using a for loop to match the key attribute of a keypress event to the innerHTML value of the respective HTML element, but I wanted to make this part of the app as responsive as possible with a look up time of O(1). So I created a matching array of each key value, and indexed into that array to create a new audio object for each keypress.
+
+```js
+document.addEventListener('keydown', e => {
+    if (e.repeat) return
+    const key = e.key;
+    const keyIndex = keyboard.indexOf(key);
+
+    playNote(keys[keyIndex]);
+});
+
+document.addEventListener('keyup', e => {
+    const key = e.key;
+    const keyIndex = keyboard.indexOf(key);
+
+    keys[keyIndex].classList.remove('active');
+});
+
+function playNote(key){
+    if (!key.dataset.note) return;
+
+    const noteURL = "samples/" + current_inst + "/" + key.dataset.note + key.dataset.octave + ".wav";
+    const noteAudio = new Audio(noteURL)
+
+    noteAudio.play()
+    noteAudio.classList.add('playing')
+
+    key.classList.add('active')
+    noteAudio.addEventListener('ended', () => key.classList.remove('active'))
+}
+```
+
+
+Each keyboard key consistently represents the same musical note, but the octave attribute is one of three variables so that the octave setting function can modulate their values between octaves 0 through 6.
+
 ```js
 const inst = {
     'piano': [0,1,2,3,4,5,6],
@@ -123,6 +112,54 @@ octs.forEach(oct => {
     }
 )})
 ```
+
+
+
+Because I needed the ability to play/pause the same background track, while enabling the ability to play another track and simultaneously pause the current track, I used a toggle function. I created a global variable for the toggle function to reference in order to check if a track already exists. Now this function can easily allocate pause and play functions to the track that is already playing, and the new track to be played.
+
+
+```js
+let playingChordAudio;
+
+function playToggle(chord){
+    const newChord = chord.dataset.file // returns chord.dataset.file as 'Pond...'
+
+    if (!playingChordAudio){
+        playChord(chord);
+    } else if (playingChordAudio.src.includes(newChord)) {
+        pauseChord(chord)
+    } else {
+        pauseChord();
+        playChord(chord);
+    }
+}
+
+function playChord(chord){
+    const chordURL = "samples/LANDR/" + chord.dataset.file + ".wav"
+    const chordAudio = new Audio(chordURL);
+    chordAudio.volume = 0.5;
+    recommend(chord);
+
+    chordAudio.currentTime = 0;
+    chordAudio.play();
+
+    chordAudio.loop = true;
+    chord.classList.add('active');
+    playingChordAudio = chordAudio;
+}
+
+function pauseChord(){
+    playingChordAudio.pause();
+    playingChordAudio.currentTime = 0;
+    chords.forEach(chord => {
+        chord.classList.remove('active');
+    });
+    
+    unrecommend();
+    playingChordAudio = null;
+}
+```
+
 
 ## UPCOMING FUNCTIONALITY
 1. Additional instruments
