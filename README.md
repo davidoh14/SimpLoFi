@@ -1,10 +1,11 @@
+# SimpLoFi
 https://user-images.githubusercontent.com/86807281/148483698-f3f8a384-3958-42a8-acfd-c3a3e364ba84.mp4
 
-# [Live](https://davidoh14.github.io/SimpLoFi/)
+[Live](https://davidoh14.github.io/SimpLoFi/)
 
-# OVERVIEW:
+## OVERVIEW:
 
-SimpLoFi allows you to make a mini lo-fi song, without learning music theory. Select a background track, and the keyboard keys representing piano notes that match the musical key of the background track will illuminate. Just play any of these recommended notes to make your own melody!
+SimpLoFi allows you to make a mini lo-fi song, without learning music theory. Select a background track, and the keyboard keys representing piano notes that match the musical key of the background track will illuminate. Just play any of these recommended notes to make your own melody.
 
 
 ### WIREFRAME
